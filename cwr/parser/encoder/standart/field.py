@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from datetime import datetime
 from abc import ABCMeta, abstractmethod
 from cwr.parser.encoder.common import Encoder
 
@@ -129,8 +130,7 @@ class DateCwrFieldEncoder(CwrFieldEncoder):
             fmt = "{:0>%d}" % (self._rule['size'])
             return fmt.format(0)
         else:
-            return "{:%Y%m%d}".format(value)
-
+            return "{:%Y%m%d}".format(datetime.strptime(value, '%Y-%m-%d'))
 
 class DateTimeCwrFieldEncoder(DateCwrFieldEncoder):
     """
@@ -141,7 +141,7 @@ class DateTimeCwrFieldEncoder(DateCwrFieldEncoder):
             fmt = "{:0>%d}" % (self._rule['size'])
             return fmt.format(0)
         else:
-            return "{:%Y%m%d%H%M%S}".format(value)
+            return "{:%Y%m%d%H%M%S}".format(datetime.strptime(value, '%Y-%m-%dT%H:%M:%S'))
 
 class TimeCwrFieldEncoder(DateCwrFieldEncoder):
     """
@@ -152,7 +152,7 @@ class TimeCwrFieldEncoder(DateCwrFieldEncoder):
             fmt = "{:0>%d}" % (self._rule['size'])
             return fmt.format(0)
         else:
-            return "{:%H%M%S}".format(value)
+            return "{:%H%M%S}".format(datetime.strptime(value, '%H:%M:%S'))
 
 class LookupCwrFieldEncoder(DefaultCwrFieldEncoder):
     """
